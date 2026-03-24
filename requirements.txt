@@ -4,4 +4,7 @@ plotly
 streamlit
 faker
 lifetimes
+lifelines
+networkx
 matplotlib
+scikit-learn

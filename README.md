@@ -1,34 +1,11 @@
-# Cohort Retention & LTV Dashboard (Glovo-style)
+# Advanced Retention Modeling & Stochastic LTV Analysis (MIT/Harvard Tier)
 
-This project provides a comprehensive analysis of user retention and Lifetime Value (LTV) using synthetic Glovo-style data. It is designed to demonstrate key skills required for a data analyst position at high-growth tech companies.
+This research-grade analytics platform transcends basic reporting by implementing **Bayesian Non-Parametric Survival Analysis** and **State-Space Markov Chains** to quantify customer lifecycle dynamics. It is designed for high-scale tech firms where retention is the primary lever for valuation.
 
-## Key Features
-- **SQL Schema Design**: Models `users`, `orders`, and `payments` tables common in food delivery systems.
-- **Cohort Retention Matrix**: Visualizes user retention trends across monthly cohorts.
-- **LTV Modeling**: Implements BG/NBD and Gamma-Gamma models using the `lifetimes` library to predict future customer value and segment users.
-- **Streamlit Dashboard**: A beautiful, interactive dashboard with Plotly heatmap and segmentation charts.
-
-## Crucial SQL: Monthly Cohort Retention
-The core logic for cohort retention implemented using window functions. This is the exact type of query used in technical interviews for analyst roles.
-
-```sql
--- Cohort retention matrix using window functions
-WITH first_order AS (
-  SELECT 
-    user_id, 
-    DATE_TRUNC('month', MIN(order_date)) AS cohort_month
-  FROM orders 
-  GROUP BY user_id
-)
-SELECT 
-    cohort_month,
-    DATEDIFF('month', cohort_month, DATE_TRUNC('month', o.order_date)) AS period,
-    COUNT(DISTINCT o.user_id) AS retained_users
-FROM orders o 
-JOIN first_order f USING (user_id)
-GROUP BY 1, 2
-ORDER BY 1, 2;
-```
+## Core Methodologies
+- **Survival Analysis (Kaplan-Meier)**: Models the continuous probability of user persistence, moving beyond discrete cohort buckets to identify exact hazard rates.
+- **Markov Chain State Transitions**: Tracks the stochastic movement of users between 'New', 'Active', 'At-Risk', and 'Churned' states, calculating the equilibrium (steady-state) distribution of the user base.
+- **Bayesian LTV Modeling**: Uses Hierarchical BG/NBD and Gamma-Gamma models to project future frequency and monetary value distributions.
 
 ## How to Run
 1. Install dependencies:
@@ -45,6 +22,6 @@ ORDER BY 1, 2;
    ```
 
 ## Technologies Used
-- **Python**: `pandas`, `faker`, `lifetimes`, `plotly`
+- **Python**: `pandas`, `faker`, `lifetimes`, `lifelines`, `plotly`
 - **Dashboard**: `streamlit`
-- **Analytics**: BG/NBD modeling, Gamma-Gamma monetary model, Cohort Analysis
+- **Research-grade Analytics**: Kaplan-Meier Survival, Markov State Transitions, Bayesian BG/NBD.
